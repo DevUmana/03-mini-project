@@ -1,9 +1,12 @@
+// Global Data Collection
 let win = [];
 let lose = [];
 let tie = [];
+let firstGame = true;
 
 // Start the game function
 function startGame() {
+  let welcomeMessage = alert("Welcome to Rock, Paper, Scissors!");
   let startGame = confirm("Are you Ready to play?");
 
   if (startGame) {
@@ -15,10 +18,12 @@ function startGame() {
 
 // Ask user for selection
 function userSelection() {
-  let userSelected = prompt("Enter R, P, or S");
+  let userSelected = prompt("Type R for Rock, P for Paper, or S for Scissors.");
 
-  if (userSelected === null) {
+  if (userSelected === null && firstGame) {
     alert("You have cancelled the game. Have a nice day!");
+    return;
+  } else if (userSelected === null && !firstGame) {
     return;
   } else if (
     userSelected !== "R" &&
@@ -42,6 +47,9 @@ function getOpponentSelection() {
 // Play the game
 function playGame(x) {
   if (x === undefined) {
+    if (!firstGame) {
+      reportData();
+    }
     return;
   }
 
@@ -52,42 +60,35 @@ function playGame(x) {
   console.log("Opponent Selection: " + opponentSelectionStored);
 
   if (userSelection == opponentSelectionStored) {
-    alert("It's a tie!");
+    alert("Opponent selected " + opponentSelectionStored + "\n\nIt's a tie!");
     dataCollection("T");
   } else if (userSelection == "R" && opponentSelectionStored == "S") {
-    alert("You win!");
+    alert("Opponent selected " + opponentSelectionStored + "\n\nYou win!");
     dataCollection("W");
   } else if (userSelection == "P" && opponentSelectionStored == "R") {
-    alert("You win!");
+    alert("Opponent selected " + opponentSelectionStored + "\n\nYou win!");
     dataCollection("W");
   } else if (userSelection == "S" && opponentSelectionStored == "P") {
-    alert("You win!");
+    alert("Opponent selected " + opponentSelectionStored + "\n\nYou win!");
     dataCollection("W");
   } else {
-    alert("You lose!");
+    alert("Opponent selected " + opponentSelectionStored + "\n\nYou lose!");
     dataCollection("L");
   }
 
   console.log(dataCollection());
-
+  firstGame = false;
   playAgain();
 }
 
 // Ask user to play again
 function playAgain() {
   let playAgain = confirm("Do you want to play again?");
-  
+
   if (playAgain) {
     playGame(userSelection());
   } else {
-    alert(
-      "Total Wins: " +
-        dataCollection().win.length +
-        "\nTotal Losses: " +
-        dataCollection().lose.length +
-        "\nTotal Ties: " +
-        dataCollection().tie.length
-    );
+    reportData();
   }
 }
 
@@ -102,5 +103,16 @@ function dataCollection(x) {
   return { win, lose, tie };
 }
 
+function reportData() {
+  alert(
+    "Total Wins: " +
+      dataCollection().win.length +
+      "\nTotal Losses: " +
+      dataCollection().lose.length +
+      "\nTotal Ties: " +
+      dataCollection().tie.length +
+      "\n\nThank you for playing!"
+  );
+}
 // Starts the game
 startGame();
