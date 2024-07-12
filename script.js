@@ -6,6 +6,8 @@ function startGame() {
   if (dataCollectionArray.firstGame) {
     let welcomeMessage = alert("Welcome to Rock, Paper, Scissors!");
   }
+
+  userSelection();
 }
 
 // Ask user for selection with error handling
@@ -18,7 +20,11 @@ function userSelection() {
     {
       reportData();
     }
-  } else if ( userSelected !== "R" && userSelected !== "P" && userSelected !== "S") {
+  } else if (
+    userSelected !== "R" &&
+    userSelected !== "P" &&
+    userSelected !== "S"
+  ) {
     alert("Invalid selection. Please try again.");
     userSelection();
   } else {
@@ -39,14 +45,18 @@ function playGame(x) {
   if (x == opponentSelectionStored) {
     alert("Opponent selected " + opponentSelectionStored + "\n\nIt's a tie!");
     dataCollectionArray.tie.push("T");
-  } else if (x == "R" && opponentSelectionStored == "S" || x == "P" && opponentSelectionStored == "R" || x == "S" && opponentSelectionStored == "P") {
+  } else if (
+    (x == "R" && opponentSelectionStored == "S") ||
+    (x == "P" && opponentSelectionStored == "R") ||
+    (x == "S" && opponentSelectionStored == "P")
+  ) {
     alert("Opponent selected " + opponentSelectionStored + "\n\nYou win!");
     dataCollectionArray.win.push("W");
   } else {
     alert("Opponent selected " + opponentSelectionStored + "\n\nYou lose!");
     dataCollectionArray.lose.push("L");
   }
-  
+
   dataCollectionArray.firstGame = false;
   playAgain();
 }
@@ -56,7 +66,7 @@ function playAgain() {
   let playAgain = confirm("Do you want to play again?");
 
   if (playAgain) {
-    userSelection();;
+    userSelection();
   } else {
     reportData();
   }
